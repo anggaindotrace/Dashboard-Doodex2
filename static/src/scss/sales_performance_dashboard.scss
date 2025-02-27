@@ -1,0 +1,70 @@
+$colors: (
+    navbar-border: #d8dadd,
+    border: #E5E7EB,
+    primary: #008080,
+    dark: #004040,
+    text-primary: #111827,
+    text-muted: #6B7280
+);
+
+.next-dashboard {
+    height: 100%; 
+    overflow-y: auto;
+}
+
+.separator {
+    border-top: 1px solid map-get($colors, navbar-border);
+}
+
+.oe-border {
+    border: 2px solid map-get($colors, border);
+    background-color: #ffffff;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.oe-header-title {
+    color: map-get($colors, text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.oe-kpi-title {
+    color: map-get($colors, text-muted);
+    font-size: 0.7rem;
+    font-weight: 400;
+}
+
+.oe-kpi-value {
+    color: map-get($colors, text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+@media (min-width: 768px) {
+    .oe-border {
+        border: 4px solid map-get($colors, border);
+        padding: 1rem;
+        border-radius: 12px
+    }
+
+    .oe-header-title {
+        font-size: 1.5rem;
+    }
+
+    .oe-kpi-title {
+        font-size: 1rem;
+    }
+
+    .oe-kpi-value {
+        font-size: 1.7rem;
+    }
+
+    .row > *:first-child {
+        padding-right: 0;
+    }
+
+    .row > *:last-child {
+        padding-left: 0;
+    }
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="sales_performance_dashboard" xml:space="preserve">
+	<t t-name="SalesPerformanceDashboard">
+		<div class="separator">
+		</div>
+		<div class="next-dashboard">
+			<div class="py-3">
+				<div class="mx-3">
+					<div class="row mb-2">
+						<div class="col" style="padding: 0 1rem !important;">
+							<div class="oe-border">
+								<span class="oe-header-title">
+									Sales Dashboard Performance
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-md-4 mb-md-0 mb-3">
+							<KPI name="'Total Validated Sale Order'" value="'$100,000'" />
+						</div>
+						<div class="col-md-4 mb-md-0 mb-3">
+							<KPI name="'Total Validated Invoice'" value="'$100,000'" />
+						</div>
+						<div class="col-md-4">
+							<KPI name="'Total Overdue Invoice'" value="'$100,000'" />
+						</div>
+					</div>
+          <div class="row">
+            <div class="col-md-4 mb-md-0 mb-3">
+              <div class="oe-border mb-3">
+                <div class="d-flex flex-column gap-2">
+                  <span class="oe-kpi-title text-muted">
+                  Quote to Order Conversion Rate
+                  </span>
+                  <span class="oe-kpi-value">
+                    80.0%
+                  </span>
+                </div>
+              </div>
+              <div class="oe-border">
+                <div class="d-flex flex-column gap-2">
+                  <span class="oe-kpi-title text-muted">
+                  Quote to Order Conversion Rate
+                  </span>
+                  <span class="oe-kpi-value">
+                    80.0%
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8" style="padding: 0 1rem !important;">
+              <div class="oe-border h-100">
+               <div class="d-flex flex-column gap-2">
+                <span class="oe-kpi-title text-muted">
+                Top 3 Product by Sales
+                </span>
+                <div id="top-3-sales-by-product" style="height: 100%; width: 100%;"></div>
+               </div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</t>
+</templates>

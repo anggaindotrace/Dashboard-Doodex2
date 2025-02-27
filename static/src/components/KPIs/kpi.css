@@ -1,0 +1,27 @@
+.bg-green-light {
+    background-color: #BBF7D0;
+}
+
+.bg-green-dark {
+    background-color: #0ed92f;
+}
+
+.bg-red-light {
+    background-color: #FECACA;
+}
+
+.bg-red-dark {
+    background-color: #B91C1C;
+}
+
+.text-green{
+    color: #0ed92f;
+}
+
+.text-red{
+    color: #B91C1C;
+}
+
+.text-gray{
+    color: #262626;
+}

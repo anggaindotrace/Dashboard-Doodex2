@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+	<t t-name="sales_performance_dashboard.KPI">
+		<div class="oe-border">
+			<div class="d-flex flex-column gap-2">
+				<span class="oe-kpi-title text-muted">
+					<t t-out="props.name" />
+				</span>
+				<span class="oe-kpi-value">
+					<t t-out="props.value" />
+				</span>
+			</div>
+		</div>
+	</t>
+</templates>
