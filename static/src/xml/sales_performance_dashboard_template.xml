@@ -4,62 +4,100 @@
 		<div class="separator">
 		</div>
 		<div class="next-dashboard">
-			<div class="py-3">
+			<div class="py-3" t-ref="root">
 				<div class="mx-3">
 					<div class="row mb-2">
 						<div class="col" style="padding: 0 1rem !important;">
 							<div class="oe-border">
 								<span class="oe-header-title">
-									Sales Dashboard Performance
+									Sales Performance Dashboard
 								</span>
+							</div>
+							<div class="d-flex gap-2 mt-2">
+								<div class="flex-grow-1">
+									<div class="oe-border">
+										<select class="form-select form-select-sm">
+											<option>Date</option>
+										</select>
+									</div>
+								</div>
+								<div class="flex-grow-1">
+									<div class="oe-border">
+										<select class="form-select form-select-sm">
+											<option>Customer</option>
+										</select>
+									</div>
+								</div>
+								<div class="flex-grow-1">
+									<div class="oe-border">
+										<select class="form-select form-select-sm">
+											<option>Product</option>
+										</select>
+									</div>
+								</div>
+								<div class="flex-grow-1">
+									<div class="oe-border">
+										<select class="form-select form-select-sm">
+											<option>Category</option>
+										</select>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row mb-3">
 						<div class="col-md-4 mb-md-0 mb-3">
-							<KPI name="'Total Validated Sale Order'" value="'$100,000'" />
+							<KPI name="'Total Validated Sale Order'" value="state.totalSalesValidatedAmount" />
 						</div>
 						<div class="col-md-4 mb-md-0 mb-3">
-							<KPI name="'Total Validated Invoice'" value="'$100,000'" />
+							<KPI name="'Total Validated Invoice'" value="state.totalValidatedInvoice" />
 						</div>
 						<div class="col-md-4">
-							<KPI name="'Total Overdue Invoice'" value="'$100,000'" />
+							<KPI name="'Total Overdue Invoice'" value="state.totalOverdueInvoice" />
 						</div>
 					</div>
-          <div class="row">
-            <div class="col-md-4 mb-md-0 mb-3">
-              <div class="oe-border mb-3">
-                <div class="d-flex flex-column gap-2">
-                  <span class="oe-kpi-title text-muted">
-                  Quote to Order Conversion Rate
-                  </span>
-                  <span class="oe-kpi-value">
-                    80.0%
-                  </span>
-                </div>
-              </div>
-              <div class="oe-border">
-                <div class="d-flex flex-column gap-2">
-                  <span class="oe-kpi-title text-muted">
-                  Quote to Order Conversion Rate
-                  </span>
-                  <span class="oe-kpi-value">
-                    80.0%
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-8" style="padding: 0 1rem !important;">
-              <div class="oe-border h-100">
-               <div class="d-flex flex-column gap-2">
-                <span class="oe-kpi-title text-muted">
-                Top 3 Product by Sales
-                </span>
-                <div id="top-3-sales-by-product" style="height: 100%; width: 100%;"></div>
-               </div>
-              </div>
-            </div>
-          </div>
+					<div class="row">
+						<div class="col-md-4 mb-md-0 mb-3">
+							<div class="oe-border mb-3">
+								<div class="d-flex flex-column gap-2">
+									<span class="oe-kpi-title text-muted">
+										Quote to Order Conversion Rate
+									</span>
+									<span class="oe-kpi-value" >
+										<t t-esc="state.quoteToOrderConversionRate"/>
+									</span>
+									<div class="progress" style="height: 8px;">
+										<div class="progress-bar" role="progressbar" t-att-style="'width: ' + state.quoteToOrderConversionRate + '; background-color: #008080'" t-att-aria-valuenow="state.quoteToOrderConversionRate" aria-valuemin="0" aria-valuemax="100"></div>
+									</div>
+								</div>
+							</div>
+							<div class="oe-border">
+								<div class="d-flex flex-column gap-2">
+									<span class="oe-kpi-title text-muted">
+										Average Sale Order
+									</span>
+									<span class="oe-kpi-value">
+										<t t-esc="state.averageSaleOrder"/>
+									</span>
+									<div id="average-sales-line-chart" style="height: 50px; width: 100%;"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8" style="padding: 0 1rem !important;">
+							<div class="oe-border h-100">
+								<div class="d-flex flex-column gap-2">
+									<span class="oe-kpi-title text-muted">
+										Top 3 Product by Sales
+									</span>
+									<div class="d-flex justify-content-end">
+										<button class="btn btn-sm btn-outline-primary" t-on-click="filterByQty">Quantity</button>
+										<button class="btn btn-sm btn-outline-primary ms-2" t-on-click="filterByValue">Value</button>
+									</div>
+								</div>
+								<div id="top-3-sales-by-product" style="height: 100%; width: 100%;"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

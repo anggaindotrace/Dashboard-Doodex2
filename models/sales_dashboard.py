@@ -1,0 +1,51 @@
+from odoo import api, fields, models
+from odoo.tools import format_amount
+from typing import Dict, List
+from dateutil.relativedelta import relativedelta
+import datetime
+import logging
+
+_logger = logging.getLogger(__name__)
+
+class SalesDashboard(models.Model):
+    _name = 'sales.dashboard'
+    _description = 'Sales Dashboard'
+
+    def get_sales_performance_data(self, date_from, date_to, product_id=None, customer_id=None, product_category_id=None):
+        query = """
+            SELECT 
+                so.date_order::date as date,
+                so.state,
+                sol.price_subtotal as amount,
+                pc.name as product_category,
+                pt.name as product_name,
+                rp.name as customer,
+                so.id as sale_order_id,
+                am.state as invoice_state,
+                aml.price_subtotal as invoice_amount,
+                am.amount_residual as invoice_amount_residual,
+                am.id as invoice_id
+            FROM sale_order_line sol
+            INNER JOIN product_product pp ON sol.product_id = pp.id
+            INNER JOIN product_template pt ON pp.product_tmpl_id = pt.id
+            INNER JOIN product_category pc ON pt.categ_id = pc.id
+            INNER JOIN sale_order so ON sol.order_id = so.id
+            INNER JOIN res_partner rp ON so.partner_id = rp.id
+            LEFT JOIN sale_order_line_invoice_rel solir ON sol.id = solir.order_line_id
+            LEFT JOIN account_move_line aml ON solir.invoice_line_id= aml.id
+            LEFT JOIN account_move am ON aml.move_id = am.id
+            WHERE so.date_order::date BETWEEN %s AND %s
+        """
+        params = (date_from, date_to)
+        if product_id:
+            query += "AND sol.product_id = %s"
+            params += (product_id,)
+        if customer_id:
+            query += "AND so.partner_id = %s"
+            params += (customer_id,)
+        if product_category_id:
+            query += "AND pc.id = %s"
+            params += (product_category_id,)
+        self._cr.execute(query, params)
+
+        return self._cr.dictfetchall(), {'currency_name': self.env.company.currency_id.name, 'currency_symbol': self.env.company.currency_id.symbol}
