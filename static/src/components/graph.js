@@ -26,14 +26,21 @@ export class Graph{
         return root;
     }
 
-    async renderTopSellingProducts(data) {
-        // Example random data
-        data = [
-            { product: "Product A", totalValue: 5000, totalQuantity: 150 },
-            { product: "Product B", totalValue: 3000, totalQuantity: 120 },
-            { product: "Product C", totalValue: 7000, totalQuantity: 200 }
-        ];
-
+    async renderTopSellingProducts(data, type) {
+        if (type === 'value') {
+            if (data && data.top3ProductsByValue) {
+                data = data.top3ProductsByValue;
+            } else {
+                data = [];
+            }
+        } else {
+            if (data && data.top3ProductsByQuantity) {
+                data = data.top3ProductsByQuantity;
+            } else {
+                data = [];
+            }
+        }
+        console.log("data", data);
         const root = await this.initChart("#top-3-sales-by-product");
         console.log("root", root);
         var chart = root.container.children.push(
@@ -76,8 +83,13 @@ export class Graph{
                 yAxis: yAxisLeft,
                 valueYField: "totalValue",
                 categoryXField: "product",
-                fill: am5.color(0x008080),
-                stroke: am5.color(0x008080)
+                fill: am5.color(0x004040),
+                stroke: am5.color(0x004040),
+                clustered: true, // Ensure bars are on different sides
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{name}: {valueY}"
+                }),
+                width: 0.5
             })
         );
         valueSeries.data.setAll(data);
@@ -90,13 +102,18 @@ export class Graph{
                 yAxis: yAxisRight,
                 valueYField: "totalQuantity",
                 categoryXField: "product",
-                fill: am5.color(0x00bfff),
-                stroke: am5.color(0x00bfff)
+                fill: am5.color(0x01B8B8),
+                stroke: am5.color(0x01B8B8),
+                clustered: true, // Ensure bars are on different sides
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{name}: {valueY}"
+                }),
+                width: 0.5
             })
         );
         quantitySeries.data.setAll(data);
-
-
+        
+        chart.set("cursor", am5xy.XYCursor.new(root, {}));
         // Add legend and set it on top
         var legend = chart.children.unshift(am5.Legend.new(root, {
             centerX: am5.p50,
@@ -105,5 +122,7 @@ export class Graph{
             y: am5.p0
         }));
         legend.data.setAll(chart.series.values);
+
+        chart.appear(1000, 100);
     }
 }

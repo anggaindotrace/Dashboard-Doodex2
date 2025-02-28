@@ -15,31 +15,67 @@
 							</div>
 							<div class="d-flex gap-2 mt-2">
 								<div class="flex-grow-1">
-									<div class="oe-border">
-										<select class="form-select form-select-sm">
-											<option>Date</option>
-										</select>
+									<div class="dropdown">
+										<button class="btn btn-secondary btn-lg" type="button" id="dateDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%; height: auto;">
+											Period : <span t-esc="state.dateFilterHeader"/>
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="dateDropdown" style="width: 100%;">
+											<li><a class="dropdown-item" href="#" t-on-click="() => this.onDateFilterSelect('This Month')">This Month</a></li>
+											<li><a class="dropdown-item" href="#" t-on-click="() => this.onDateFilterSelect('This Quarter')">This Quarter</a></li>
+											<li><a class="dropdown-item" href="#" t-on-click="() => this.onDateFilterSelect('This Financial Year')">This Financial Year</a></li>
+											<li><a class="dropdown-item" href="#" t-on-click="() => this.onDateFilterSelect('Last Month')">Last Month</a></li>
+											<li><a class="dropdown-item" href="#" t-on-click="() => this.onDateFilterSelect('Last Quarter')">Last Quarter</a></li>
+											<li><a class="dropdown-item" href="#" t-on-click="() => this.onDateFilterSelect('Last Financial Year')">Last Financial Year</a></li>
+											<li class="dropdown-divider"></li>
+											<li class="px-3">
+												<div class="d-flex justify-content-between">
+													<input id="dateFrom" type="date" class="form-control" t-att-value="state.dateFrom"/>
+													<span>to</span>
+													<input id="dateTo" type="date" class="form-control" t-att-value="state.dateTo"/>
+													<button class="btn btn-primary" t-on-click="() => this.onDateFilterSelect('Custom')">Apply</button>
+												</div>
+											</li>
+										</ul>
 									</div>
 								</div>
 								<div class="flex-grow-1">
-									<div class="oe-border">
-										<select class="form-select form-select-sm">
-											<option>Customer</option>
-										</select>
+									<div class="dropdown">
+										<button class="btn btn-secondary btn-lg" type="button" id="customerDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%; height: auto;">
+											Customer
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="customerDropdown" style="width: 100%;">
+											<t t-foreach="Object.keys(state.customerList)" t-as="customerId" t-key="customerId">
+												<li>
+													<a class="dropdown-item" href="#" t-on-click="() => this.onCustomerSelect(customerId)">
+														<t t-esc="state.customerList[customerId]"/>
+													</a>
+												</li>
+											</t>
+										</ul>
 									</div>
 								</div>
 								<div class="flex-grow-1">
-									<div class="oe-border">
-										<select class="form-select form-select-sm">
-											<option>Product</option>
-										</select>
+									<div class="dropdown">
+										<button class="btn btn-outline-secondary form-select form-select-sm dropdown-toggle" type="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+											Product
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="productDropdown">
+											<li><a class="dropdown-item" href="#">Option 1</a></li>
+											<li><a class="dropdown-item" href="#">Option 2</a></li>
+											<li><a class="dropdown-item" href="#">Option 3</a></li>
+										</ul>
 									</div>
 								</div>
 								<div class="flex-grow-1">
-									<div class="oe-border">
-										<select class="form-select form-select-sm">
-											<option>Category</option>
-										</select>
+									<div class="dropdown">
+										<button class="btn btn-outline-secondary form-select form-select-sm dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+											Category
+										</button>
+										<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+											<li><a class="dropdown-item" href="#">Option 1</a></li>
+											<li><a class="dropdown-item" href="#">Option 2</a></li>
+											<li><a class="dropdown-item" href="#">Option 3</a></li>
+										</ul>
 									</div>
 								</div>
 							</div>
@@ -90,11 +126,11 @@
 										Top 3 Product by Sales
 									</span>
 									<div class="d-flex justify-content-end">
-										<button class="btn btn-sm btn-outline-primary" t-on-click="filterByQty">Quantity</button>
-										<button class="btn btn-sm btn-outline-primary ms-2" t-on-click="filterByValue">Value</button>
+										<button class="btn btn-sm" t-att-class="{'btn-outline-primary': !state.isValueActive, 'btn-primary': state.isValueActive}" t-on-click="filterByValue">Value</button>
+										<button class="btn btn-sm ms-2" t-att-class="{'btn-outline-primary': !state.isQtyActive, 'btn-primary': state.isQtyActive}" t-on-click="filterByQty">Quantity</button>
 									</div>
 								</div>
-								<div id="top-3-sales-by-product" style="height: 100%; width: 100%;"></div>
+								<div id="top-3-sales-by-product" style="height: 85%; width: 100%;"></div>
 							</div>
 						</div>
 					</div>
