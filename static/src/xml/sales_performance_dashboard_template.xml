@@ -165,7 +165,7 @@
 						<div class="col px-lg-3">
 							<div class="oe-border">
 								<div class="d-flex flex-column gap-2">
-									<span class="text-primary fw-bold fs-2">
+									<span class="dashboard-card-title fw-bold fs-2">
 										Sales Temporal Analysis
 									</span>
 									<div id="sales-temporal-analysis" style="height: 477px; width: 100%;"></div>
@@ -177,7 +177,7 @@
 						<div class="col px-lg-3">
 							<div class="oe-border">
 								<div class="d-flex flex-column gap-2">
-									<span class="text-primary fw-bold fs-2">
+									<span class="dashboard-card-title fw-bold fs-2">
 										Distribution Analysis
 									</span>
 									<div id="distribution-analysis" style="height: 477px; width: 100%;"></div>
@@ -189,7 +189,7 @@
 						<div class="col-lg-6 ps-lg-3">
 							<div class="oe-border">
 								<div class="d-flex flex-column gap-2">
-									<span class="text-primary fw-bold fs-2">
+									<span class="dashboard-card-title fw-bold fs-2">
 										Revenue by Salesperson
 									</span>
 									<div id="revenue-by-customer" style="height: 482px; width: 100%;"></div>
@@ -199,7 +199,7 @@
 						<div class="col-lg-6 ps-lg-3">
 							<div class="oe-border">
 								<div class="d-flex flex-column gap-2">
-									<span class="text-primary fw-bold fs-2">
+									<span class="dashboard-card-title fw-bold fs-2">
 										Number of Quotes by Salesperson
 									</span>
 									<div id="number-of-quotes-by-salesperson" style="height: 482px; width: 100%;"></div>
