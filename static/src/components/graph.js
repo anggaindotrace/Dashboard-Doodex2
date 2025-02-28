@@ -135,7 +135,9 @@ export class Graph{
               panY: true,
               wheelX: "panX",
               wheelY: "zoomX",
-              pinchZoomX:true
+              paddingLeft: 0,
+              paddingBottom: 30,
+              layout: root.verticalLayout
             })
           );
           
@@ -423,9 +425,690 @@ export class Graph{
                   });
                 }
           )
+          var legend = chart.children.push(
+            am5.Legend.new(root, {
+              centerX: am5.p50,
+              x: am5.p50,
+              y: am5.p100
+            })
+          );
+          legend.data.setAll(chart.series.values);
+
           chart.zoomOutButton.set("forceHidden", true);
           series1.appear(1000);
           series2.appear(1000);
           chart.appear(1000, 100);
+    }
+
+    async renderHierarchyChart(referenceId){
+        const root = await this.initChart(referenceId);
+        var data = {
+          value: 0,
+          children: [
+            {
+              name: "Flora",
+              children: [
+                {
+                  name: "Black Tea",
+                  value: 1
+                },
+                {
+                  name: "Floral",
+                  children: [
+                    {
+                      name: "Chamomile",
+                      value: 1
+                    },
+                    {
+                      name: "Rose",
+                      value: 1
+                    },
+                    {
+                      name: "Jasmine",
+                      value: 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Fruity",
+              children: [
+                {
+                  name: "Berry",
+                  children: [
+                    {
+                      name: "Blackberry",
+                      value: 1
+                    },
+                    {
+                      name: "Raspberry",
+                      value: 1
+                    },
+                    {
+                      name: "Blueberry",
+                      value: 1
+                    },
+                    {
+                      name: "Strawberry",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Dried Fruit",
+                  children: [
+                    {
+                      name: "Raisin",
+                      value: 1
+                    },
+                    {
+                      name: "Prune",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Other Fruit",
+                  children: [
+                    {
+                      name: "Coconut",
+                      value: 1
+                    },
+                    {
+                      name: "Cherry",
+                      value: 1
+                    },
+                    {
+                      name: "Pomegranate",
+                      value: 1
+                    },
+                    {
+                      name: "Pineapple",
+                      value: 1
+                    },
+                    {
+                      name: "Grape",
+                      value: 1
+                    },
+                    {
+                      name: "Apple",
+                      value: 1
+                    },
+                    {
+                      name: "Peach",
+                      value: 1
+                    },
+                    {
+                      name: "Pear",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Citrus Fruit",
+                  children: [
+                    {
+                      name: "Grapefruit",
+                      value: 1
+                    },
+                    {
+                      name: "Orange",
+                      value: 1
+                    },
+                    {
+                      name: "Lemon",
+                      value: 1
+                    },
+                    {
+                      name: "Lime",
+                      value: 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Sour/Fermented",
+              children: [
+                {
+                  name: "Sour",
+                  children: [
+                    {
+                      name: "Sour Aromatics",
+                      value: 1
+                    },
+                    {
+                      name: "Acetic Acid",
+                      value: 1
+                    },
+                    {
+                      name: "Butyric Acid",
+                      value: 1
+                    },
+                    {
+                      name: "Isovaleric Acid",
+                      value: 1
+                    },
+                    {
+                      name: "Citric Acid",
+                      value: 1
+                    },
+                    {
+                      name: "Malic Acid",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Alcohol/Fremented",
+                  children: [
+                    {
+                      name: "Winey",
+                      value: 1
+                    },
+                    {
+                      name: "Whiskey",
+                      value: 1
+                    },
+                    {
+                      name: "Fremented",
+                      value: 1
+                    },
+                    {
+                      name: "Overripe",
+                      value: 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Green/Vegetative",
+              children: [
+                {
+                  name: "Olive Oil",
+                  value: 1
+                },
+                {
+                  name: "Raw",
+                  value: 1
+                },
+                {
+                  name: "Green/Vegetative",
+                  children: [
+                    {
+                      name: "Under-ripe",
+                      value: 1
+                    },
+                    {
+                      name: "Peapod",
+                      value: 1
+                    },
+                    {
+                      name: "Fresh",
+                      value: 1
+                    },
+                    {
+                      name: "Dark Green",
+                      value: 1
+                    },
+                    {
+                      name: "Vegetative",
+                      value: 1
+                    },
+                    {
+                      name: "Hay-like",
+                      value: 1
+                    },
+                    {
+                      name: "Herb-like",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Beany",
+                  value: 1
+                }
+              ]
+            },
+            {
+              name: "Other",
+              children: [
+                {
+                  name: "Papery/Musty",
+                  children: [
+                    {
+                      name: "Stale",
+                      value: 1
+                    },
+                    {
+                      name: "Cardboard",
+                      value: 1
+                    },
+                    {
+                      name: "Papery",
+                      value: 1
+                    },
+                    {
+                      name: "Woody",
+                      value: 1
+                    },
+                    {
+                      name: "Moldy/Damp",
+                      value: 1
+                    },
+                    {
+                      name: "Musty/Dusty",
+                      value: 1
+                    },
+                    {
+                      name: "Musty/Earthy",
+                      value: 1
+                    },
+                    {
+                      name: "Animalic",
+                      value: 1
+                    },
+                    {
+                      name: "Meaty Brothy",
+                      value: 1
+                    },
+                    {
+                      name: "Phenolic",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Chemical",
+                  children: [
+                    {
+                      name: "Bitter",
+                      value: 1
+                    },
+                    {
+                      name: "Salty",
+                      value: 1
+                    },
+                    {
+                      name: "Medicinal",
+                      value: 1
+                    },
+                    {
+                      name: "Petroleum",
+                      value: 1
+                    },
+                    {
+                      name: "Skunky",
+                      value: 1
+                    },
+                    {
+                      name: "Rubber",
+                      value: 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Roasted",
+              children: [
+                {
+                  name: "Pipe Tobacco",
+                  value: 1
+                },
+                {
+                  name: "Tobacco",
+                  value: 1
+                },
+                {
+                  name: "Burnt",
+                  children: [
+                    {
+                      name: "Acrid",
+                      value: 1
+                    },
+                    {
+                      name: "Ashy",
+                      value: 1
+                    },
+                    {
+                      name: "Smoky",
+                      value: 1
+                    },
+                    {
+                      name: "Brown, Roast",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Cereal",
+                  children: [
+                    {
+                      name: "Grain",
+                      value: 1
+                    },
+                    {
+                      name: "Malt",
+                      value: 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Spices",
+              children: [
+                {
+                  name: "Pungent",
+                  value: 1
+                },
+                {
+                  name: "Pepper",
+                  value: 1
+                },
+                {
+                  name: "Brown Spice",
+                  children: [
+                    {
+                      name: "Anise",
+                      value: 1
+                    },
+                    {
+                      name: "Nutmeg",
+                      value: 1
+                    },
+                    {
+                      name: "Cinnamon",
+                      value: 1
+                    },
+                    {
+                      name: "Clove",
+                      value: 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Nutty/Cocoa",
+              children: [
+                {
+                  name: "Nutty",
+                  children: [
+                    {
+                      name: "Peanuts",
+                      value: 1
+                    },
+                    {
+                      name: "Hazelnut",
+                      value: 1
+                    },
+                    {
+                      name: "Almond",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Cocoa",
+                  children: [
+                    {
+                      name: "Chocolate",
+                      value: 1
+                    },
+                    {
+                      name: "Dark Chocolate",
+                      value: 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              name: "Sweet",
+              children: [
+                {
+                  name: "Brown Sugar",
+                  children: [
+                    {
+                      name: "Molasses",
+                      value: 1
+                    },
+                    {
+                      name: "Maple Syrup",
+                      value: 1
+                    },
+                    {
+                      name: "Caramelized",
+                      value: 1
+                    },
+                    {
+                      name: "Honey",
+                      value: 1
+                    }
+                  ]
+                },
+                {
+                  name: "Vanilla",
+                  value: 1
+                },
+                {
+                  name: "Vanillin",
+                  value: 1
+                },
+                {
+                  name: "Overall Sweet",
+                  value: 1
+                },
+                {
+                  name: "Sweet Aromatics",
+                  value: 1
+                }
+              ]
+            }
+          ]
+        };
+        
+        var zoomableContainer = root.container.children.push(
+          am5.ZoomableContainer.new(root, {
+            width: am5.p100,
+            height: am5.p100,
+            wheelable: true,
+            pinchZoom: true
+          })
+        );
+        
+        var zoomTools = zoomableContainer.children.push(am5.ZoomTools.new(root, {
+          target: zoomableContainer
+        }));
+        
+        zoomTools.homeButton.get("background").set("fill", "#004040")
+        zoomTools.homeButton.get("background").states.create("hover", {}).setAll({
+          fill: am5.color("#008080")
+        })
+        zoomTools.homeButton.get("background").states.create("down", {}).setAll({
+          fill: am5.color("#01B8B8")
+        })
+
+        zoomTools.plusButton.get("background").set("fill", "#004040")
+        zoomTools.plusButton.get("background").states.create("hover", {}).setAll({
+          fill: am5.color("#008080")
+        })
+        zoomTools.plusButton.get("background").states.create("down", {}).setAll({
+          fill: am5.color("#01B8B8")
+        })
+
+        zoomTools.minusButton.get("background").set("fill", "#004040")
+        zoomTools.minusButton.get("background").states.create("hover", {}).setAll({
+          fill: am5.color("#008080")
+        })
+        zoomTools.minusButton.get("background").states.create("down", {}).setAll({
+          fill: am5.color("#01B8B8")
+        })
+
+        
+        // Create series
+        // https://www.amcharts.com/docs/v5/charts/hierarchy/#Adding
+        var series = zoomableContainer.contents.children.push(am5hierarchy.ForceDirected.new(root, {
+          maskContent:false, //!important with zoomable containers
+          singleBranchOnly: true,
+          downDepth: 1,
+          topDepth: 1,
+          initialDepth: 0,
+          valueField: "value",
+          categoryField: "name",
+          childDataField: "children",
+          idField: "name",
+          linkWithField: "linkWith",
+          manyBodyStrength: -20,
+          centerStrength: 0.6
+        }));
+        
+        series.get("colors").set("colors", [
+          am5.color("#B5918C"),
+          am5.color("#205353"),
+          am5.color("#008080"),
+          am5.color("#549D95"),
+          am5.color("#F7B501"),
+          am5.color("#E89B00"),
+          am5.color("#CC6300"),
+          am5.color("#B04700"),
+          am5.color("#942A00"),
+          am5.color("#6C1E20")
+        ])
+        
+        series.get("colors").setAll({
+          step: 1
+        });
+        
+        series.links.template.set("strength", 2);
+        series.labels.template.set("minScale", 0);
+        
+        series.data.setAll([data]);
+        
+        series.set("selectedDataItem", series.dataItems[0]);
+        
+        
+        
+        // Make stuff animate on load
+        series.appear(1000, 100);
+    }
+
+    async renderBarChart(referenceId){
+      const root = await this.initChart(referenceId);
+      var chart = root.container.children.push(am5xy.XYChart.new(root, {
+        panX: true,
+        panY: true,
+        wheelX: "panX",
+        wheelY: "zoomX",
+        pinchZoomX: true,
+        paddingLeft:0,
+        paddingRight:1
+      }));
+      
+      // Add cursor
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+      var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+      cursor.lineY.set("visible", false);
+      
+      
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+      var xRenderer = am5xy.AxisRendererX.new(root, { 
+        minGridDistance: 30, 
+        minorGridEnabled: true
+      });
+      
+      xRenderer.labels.template.setAll({
+        centerY: am5.p50,
+        centerX: am5.p50,
+        paddingRight: 0
+      });
+      
+      xRenderer.grid.template.setAll({
+        location: 1
+      })
+      
+      var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+        maxDeviation: 0.3,
+        categoryField: "country",
+        renderer: xRenderer,
+        tooltip: am5.Tooltip.new(root, {})
+      }));
+      
+      var yRenderer = am5xy.AxisRendererY.new(root, {
+        strokeOpacity: 0.1
+      })
+      
+      var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+        maxDeviation: 0.3,
+        renderer: yRenderer
+      }));
+      
+      // Create series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+        name: "Series 1",
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "value",
+        sequencedInterpolation: true,
+        categoryXField: "country",
+        tooltip: am5.Tooltip.new(root, {
+          labelText: "{valueY}"
+        }),
+        fill: "#008080",
+        stroke: "#008080"
+      }));
+      
+      // Set data
+      var data = [{
+        country: "USA",
+        value: 2025
+      }, {
+        country: "China",
+        value: 1882
+      }, {
+        country: "Japan",
+        value: 1809
+      }, {
+        country: "Germany",
+        value: 1322
+      }, {
+        country: "UK",
+        value: 1122
+      }, {
+        country: "France",
+        value: 1114
+      }, {
+        country: "India",
+        value: 984
+      }, {
+        country: "Spain",
+        value: 711
+      }, {
+        country: "Netherlands",
+        value: 665
+      }, {
+        country: "South Korea",
+        value: 443
+      }, {
+        country: "Canada",
+        value: 441
+      }];
+      
+      xAxis.data.setAll(data);
+      series.data.setAll(data);
+      
+      chart.zoomOutButton.set("forceHidden", true);
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      series.appear(1000);
+      chart.appear(1000, 100);
+      
     }
 }

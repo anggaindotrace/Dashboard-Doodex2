@@ -142,22 +142,22 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-8" style="padding: 0 1rem !important;">
+						<div class="col-md-8">
 							<div class="oe-border h-100">
 								<div class="d-flex flex-column gap-2">
 									<span class="oe-kpi-title text-muted">
 										Top 3 Product by Sales
 									</span>
 									<div class="d-flex justify-content-end">
-										<button class="btn btn-sm" t-att-class="{'btn-outline-primary': !state.isValueActive, 'btn-primary': state.isValueActive}" t-on-click="filterByValue">Value</button>
-										<button class="btn btn-sm ms-2" t-att-class="{'btn-outline-primary': !state.isQtyActive, 'btn-primary': state.isQtyActive}" t-on-click="filterByQty">Quantity</button>
+										<button class="btn btn-sm" t-att-class="{'button-outline-primary': !state.isValueActive, 'button-primary': state.isValueActive}" t-on-click="filterByValue">Value</button>
+										<button class="btn btn-sm ms-2" t-att-class="{'button-outline-primary': !state.isQtyActive, 'button-primary': state.isQtyActive}" t-on-click="filterByQty">Quantity</button>
 									</div>
 								</div>
 								<div id="top-3-sales-by-product" style="height: 85%; width: 100%;"></div>
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-4">
 						<div class="col px-lg-3">
 							<div class="oe-border">
 								<div class="d-flex flex-column gap-2">
@@ -169,7 +169,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-4">
 						<div class="col px-lg-3">
 							<div class="oe-border">
 								<div class="d-flex flex-column gap-2">
@@ -177,6 +177,28 @@
 										Distribution Analysis
 									</span>
 									<div id="distribution-analysis" style="height: 477px; width: 100%;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 ps-lg-3">
+							<div class="oe-border">
+								<div class="d-flex flex-column gap-2">
+									<span class="text-primary fw-bold fs-2">
+										Revenue by Salesperson
+									</span>
+									<div id="revenue-by-customer" style="height: 482px; width: 100%;"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6 ps-lg-3">
+							<div class="oe-border">
+								<div class="d-flex flex-column gap-2">
+									<span class="text-primary fw-bold fs-2">
+										Number of Quotes by Salesperson
+									</span>
+									<div id="number-of-quotes-by-salesperson" style="height: 482px; width: 100%;"></div>
 								</div>
 							</div>
 						</div>

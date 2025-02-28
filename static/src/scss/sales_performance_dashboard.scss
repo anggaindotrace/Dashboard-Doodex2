@@ -45,6 +45,17 @@ $colors: (
     color: map-get($colors, text-primary);
 }
 
+.button-primary, .button-primary:hover {
+    background-color: map-get($colors, primary);
+    color: #ffffff;
+}
+
+.button-outline-primary, .button-outline-primary:hover {
+    background-color: #ffffff;
+    color: map-get($colors, primary);
+    border: 1px solid map-get($colors, primary);
+}
+
 @media (min-width: 768px) {
     .oe-border {
         border: 4px solid map-get($colors, border);

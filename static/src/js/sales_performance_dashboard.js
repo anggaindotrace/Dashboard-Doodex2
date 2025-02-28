@@ -48,9 +48,11 @@ export class SalesPerformanceDashboard extends Component {
             this.state.customerList = this.getCustomerList(this.state.salesPerformanceData);
             await this.graph.renderTopSellingProducts(this.state.salesPerformanceData);
             await this.graph.renderComboCharts('#sales-temporal-analysis');
+            await this.graph.renderHierarchyChart('#distribution-analysis');
+            await this.graph.renderBarChart('#revenue-by-customer');
+            await this.graph.renderBarChart('#number-of-quotes-by-salesperson');
         });
     }
-
 
     async onDateFilterSelect(dateFilter) {
         this.state.dateFilterHeader = dateFilter;
@@ -91,6 +93,10 @@ export class SalesPerformanceDashboard extends Component {
         // this.state.customerNameHeader = "All"
         // this.state.customerId = null
         await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, this.state.isValueActive ? 'value' : 'quantity');
+        await this.graph.renderComboCharts('#sales-temporal-analysis');
+        await this.graph.renderHierarchyChart('#distribution-analysis');
+        await this.graph.renderBarChart('#revenue-by-customer');
+        await this.graph.renderBarChart('#number-of-quotes-by-salesperson');
     }
 
     async onCustomerSelect(customerId) {
