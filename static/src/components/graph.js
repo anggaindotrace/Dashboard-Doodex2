@@ -26,6 +26,79 @@ export class Graph{
         return root;
     }
 
+    async renderAverageSaleOrderLine(data) {
+        // Sample data for demonstration purposes
+        const sampleData = [
+            { date: new Date(2023, 0, 1).getTime(), averageSaleOrder: 1500 },
+            { date: new Date(2023, 0, 2).getTime(), averageSaleOrder: 1600 },
+            { date: new Date(2023, 0, 3).getTime(), averageSaleOrder: 1700 },
+            { date: new Date(2023, 0, 4).getTime(), averageSaleOrder: 1800 },
+            { date: new Date(2023, 0, 5).getTime(), averageSaleOrder: 1900 },
+        ];
+
+        // Use sample data if no data is provided
+        const chartData = sampleData;
+        console.log("chartData", chartData);
+        const root = await this.initChart("#average-sales-line-chart");
+
+        var chart = root.container.children.push(
+            am5xy.XYChart.new(root, {
+                layout: root.verticalLayout
+            })
+        );
+
+        // Create X-Axis for dates
+        var xAxis = chart.xAxes.push(
+            am5xy.DateAxis.new(root, {
+                baseInterval: {
+                    timeUnit: "day",
+                    count: 1
+                },
+                renderer: am5xy.AxisRendererX.new(root, {})
+            })
+        );
+
+        xAxis.get("renderer").grid.template.setAll({
+            strokeWidth: 0,
+            visible: false
+          });
+
+        // Create Y-Axis for average sale order amount
+        var yAxis = chart.yAxes.push(
+            am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {})
+            })
+        );
+
+        yAxis.get("renderer").grid.template.setAll({
+            strokeWidth: 0,
+            visible: false
+          });
+        xAxis.get("renderer").labels.template.set("visible", false);
+        yAxis.get("renderer").labels.template.set("visible", false);
+        
+        // Create series
+        var series = chart.series.push(
+            am5xy.LineSeries.new(root, {
+                name: "Average Sale Order",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "averageSaleOrder",
+                valueXField: "date",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{valueY}"
+                }),
+                fill: am5.color(0x008080),
+                stroke: am5.color(0x008080),
+            })
+        );
+        series.strokes.template.setAll({
+            strokeWidth: 4,
+        });
+        series.data.setAll(chartData);
+        chart.appear(1000, 100);
+    }
+        
     async renderTopSellingProducts(data, type) {
         if (type === 'value') {
             if (data && data.top3ProductsByValue) {

@@ -46,11 +46,11 @@ export class SalesPerformanceDashboard extends Component {
             await this.getProductCategoryDatas();
             await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, 'value');
             this.state.customerList = this.getCustomerList(this.state.salesPerformanceData);
-            await this.graph.renderTopSellingProducts(this.state.salesPerformanceData);
             await this.graph.renderComboCharts('#sales-temporal-analysis');
             await this.graph.renderHierarchyChart('#distribution-analysis');
             await this.graph.renderBarChart('#revenue-by-customer');
             await this.graph.renderBarChart('#number-of-quotes-by-salesperson');
+            await this.graph.renderAverageSaleOrderLine(this.state.averageSaleOrder);
         });
     }
 
