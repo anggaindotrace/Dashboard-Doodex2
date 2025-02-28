@@ -1,4 +1,4 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-  <menuitem id="menu_dashboard_homepage" name="Dashboard" action="action_sales_dashboard_homepage" sequence="10"/>
+  <menuitem id="menu_dashboard_homepage" name="Sales Dashboard" action="action_sales_dashboard_homepage" sequence="10"/>
 </odoo>
