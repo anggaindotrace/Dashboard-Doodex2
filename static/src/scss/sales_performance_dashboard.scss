@@ -41,6 +41,10 @@ $colors: (
     font-weight: 700;
 }
 
+.text-primary {
+    color: map-get($colors, text-primary);
+}
+
 @media (min-width: 768px) {
     .oe-border {
         border: 4px solid map-get($colors, border);
@@ -60,11 +64,16 @@ $colors: (
         font-size: 1.7rem;
     }
 
+    .row > *:not(:first-child):not(:last-child) {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
     .row > *:first-child {
-        padding-right: 0;
+        padding-right: 0.5rem;
     }
 
     .row > *:last-child {
-        padding-left: 0;
+        padding-left: 0.5rem;
     }
 }

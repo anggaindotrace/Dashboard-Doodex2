@@ -37,6 +37,8 @@ export class SalesPerformanceDashboard extends Component {
             await this.getSalesPerformanceData();
             await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, 'value');
             this.state.customerList = this.getCustomerList(this.state.salesPerformanceData);
+            await this.graph.renderTopSellingProducts(this.state.salesPerformanceData);
+            await this.graph.renderComboCharts('#sales-temporal-analysis');
         });
     }
 

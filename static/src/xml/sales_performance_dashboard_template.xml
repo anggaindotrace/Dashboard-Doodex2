@@ -92,7 +92,7 @@
 							<KPI name="'Total Overdue Invoice'" value="state.totalOverdueInvoice" />
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-4">
 						<div class="col-md-4 mb-md-0 mb-3">
 							<div class="oe-border mb-3">
 								<div class="d-flex flex-column gap-2">
@@ -102,8 +102,8 @@
 									<span class="oe-kpi-value" >
 										<t t-esc="state.quoteToOrderConversionRate"/>
 									</span>
-									<div class="progress" style="height: 8px;">
-										<div class="progress-bar" role="progressbar" t-att-style="'width: ' + state.quoteToOrderConversionRate + '; background-color: #008080'" t-att-aria-valuenow="state.quoteToOrderConversionRate" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="progress rounded-pill" style="height: 16px;">
+										<div class="progress-bar rounded-pill" role="progressbar" t-att-style="'width: ' + state.quoteToOrderConversionRate + '; background-color: #008080'" t-att-aria-valuenow="state.quoteToOrderConversionRate" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
 							</div>
@@ -131,6 +131,30 @@
 									</div>
 								</div>
 								<div id="top-3-sales-by-product" style="height: 85%; width: 100%;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col px-lg-3">
+							<div class="oe-border">
+								<div class="d-flex flex-column gap-2">
+									<span class="text-primary fw-bold fs-2">
+										Sales Temporal Analysis
+									</span>
+									<div id="sales-temporal-analysis" style="height: 477px; width: 100%;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col px-lg-3">
+							<div class="oe-border">
+								<div class="d-flex flex-column gap-2">
+									<span class="text-primary fw-bold fs-2">
+										Distribution Analysis
+									</span>
+									<div id="distribution-analysis" style="height: 477px; width: 100%;"></div>
+								</div>
 							</div>
 						</div>
 					</div>
