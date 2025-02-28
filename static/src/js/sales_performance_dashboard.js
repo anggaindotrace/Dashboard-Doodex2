@@ -31,10 +31,19 @@ export class SalesPerformanceDashboard extends Component {
             isValueActive: true,
             isQtyActive: false,
             customerList: {},
-            customerId: null
+            customerId: null,
+            customerNameHeader: "All",
+            productList: {},
+            productNameHeader: "All",
+            productId: null,
+            productCategoryList: {},
+            productCategoryId: null,
+            productCategoryNameHeader: "-"
         });
         onMounted(async () => {
             await this.getSalesPerformanceData();
+            await this.getProductDatas();
+            await this.getProductCategoryDatas();
             await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, 'value');
             this.state.customerList = this.getCustomerList(this.state.salesPerformanceData);
             await this.graph.renderTopSellingProducts(this.state.salesPerformanceData);
@@ -78,12 +87,45 @@ export class SalesPerformanceDashboard extends Component {
             this.state.dateFilterHeader = `${formatDate(dateFromInput)} - ${formatDate(dateToInput)}`;
         }
         await this.getSalesPerformanceData();
+        // this.state.customerList = this.getCustomerList(this.state.salesPerformanceData);
+        // this.state.customerNameHeader = "All"
+        // this.state.customerId = null
         await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, this.state.isValueActive ? 'value' : 'quantity');
     }
 
     async onCustomerSelect(customerId) {
-        this.state.customerId = customerId;
-        console.log("customerId=========", customerId);
+        if (customerId === "All") {
+            this.state.customerId = null;
+            this.state.customerNameHeader = "All";
+        } else {
+            this.state.customerId = customerId;
+            this.state.customerNameHeader = this.state.customerList[customerId];
+        }
+        await this.getSalesPerformanceData();
+        await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, this.state.isValueActive ? 'value' : 'quantity');
+    }
+
+
+    async onProductSelect(productId) {
+        if (productId === "All") {
+            this.state.productId = null;
+            this.state.productNameHeader = "All";
+        } else {
+            this.state.productId = productId;
+            this.state.productNameHeader = this.state.productList[productId];
+        }
+        await this.getSalesPerformanceData();
+        await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, this.state.isValueActive ? 'value' : 'quantity');
+    }
+
+    async onProductCategorySelect(productCategoryId) {
+        if (productCategoryId === "-") {
+            this.state.productCategoryId = null;
+            this.state.productCategoryNameHeader = "-";
+        } else {
+            this.state.productCategoryId = productCategoryId;
+            this.state.productCategoryNameHeader = this.state.productCategoryList[productCategoryId];
+        }
         await this.getSalesPerformanceData();
         await this.graph.renderTopSellingProducts(this.state.top3ProductsBySales, this.state.isValueActive ? 'value' : 'quantity');
     }
@@ -276,7 +318,7 @@ export class SalesPerformanceDashboard extends Component {
             await rpc("/web/dataset/call_kw/sales.dashboard/get_sales_performance_data", {
                 model: "sales.dashboard",
                 method: "get_sales_performance_data",
-                args: [[], this.state.dateFrom, this.state.dateTo, this.state.customerId],
+                args: [[], this.state.dateFrom, this.state.dateTo, this.state.customerId, this.state.productId, this.state.productCategoryId],
                 kwargs: {}
             }).then(res => {
                 this.state.currency = res[1];
@@ -287,6 +329,42 @@ export class SalesPerformanceDashboard extends Component {
                 this.state.totalOverdueInvoice = this.getTotalOverdueInvoice(res[0]);
                 this.state.averageSaleOrder = this.getAverageSaleOrder(res[0]);
                 this.state.top3ProductsBySales = this.getTop3ProductsBySales(res[0]);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async getProductDatas() {
+        try {
+            await rpc("/web/dataset/call_kw/sales.dashboard/get_product_datas", {
+                model: "sales.dashboard",
+                method: "get_product_datas",
+                args: [[]],
+                kwargs: {}
+            }).then(res => {
+                console.log("res", res);
+                this.state.productList = res.reduce((productMap, product) => {
+                    productMap[product.product_id] = product.product_name['en_US'] || Object.values(product.product_name)[0];;
+                    return productMap;
+                }, {});
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async getProductCategoryDatas() {
+        try {
+            await rpc("/web/dataset/call_kw/sales.dashboard/get_product_category_datas", {
+                model: "sales.dashboard",
+                method: "get_product_category_datas",
+                args: [[]],
+                kwargs: {}
+            }).then(res => {
+                this.state.productCategoryList = res.reduce((categoryMap, category) => {
+                    categoryMap[category.product_category_id] = category.product_category_name;
+                    return categoryMap;
+                }, {});
             });
         } catch (error) {
             console.log(error);

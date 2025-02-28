@@ -41,7 +41,7 @@ class SalesDashboard(models.Model):
         """
         params = [date_from, date_to]
         if product_id:
-            query += " AND sol.product_id = %s"
+            query += " AND pt.id = %s"
             params.append(product_id)
         if customer_id:
             query += " AND rp.id = %s"
@@ -56,4 +56,31 @@ class SalesDashboard(models.Model):
         self._cr.execute(query, tuple(params))
         res = self._cr.dictfetchall()
         return res, {'currency_name': self.env.company.currency_id.name, 'currency_symbol': self.env.company.currency_id.symbol}
+
+
+    def get_product_datas(self):
+        query = """
+            SELECT 
+                pt.id as product_id,
+                pt.name as product_name,
+                pt.categ_id as product_category_id,
+                pc.name as category_name
+            FROM product_template pt
+            LEFT JOIN product_category pc ON pt.categ_id = pc.id
+            WHERE pt.sale_ok = true
+        """
+        self._cr.execute(query)
+        res = self._cr.dictfetchall()
+        return res
+    
+    def get_product_category_datas(self):
+        query = """
+            SELECT 
+                pc.id as product_category_id,
+                pc.complete_name as product_category_name
+            FROM product_category pc
+        """
+        self._cr.execute(query)
+        res = self._cr.dictfetchall()
+        return res
 

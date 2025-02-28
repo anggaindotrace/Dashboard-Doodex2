@@ -41,9 +41,14 @@
 								<div class="flex-grow-1">
 									<div class="dropdown">
 										<button class="btn btn-secondary btn-lg" type="button" id="customerDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%; height: auto;">
-											Customer
+											Customer : <span t-esc="state.customerNameHeader"/>
 										</button>
 										<ul class="dropdown-menu" aria-labelledby="customerDropdown" style="width: 100%;">
+											<li>
+												<a class="dropdown-item" href="#" t-on-click="() => this.onCustomerSelect('All')">
+													All
+												</a>
+											</li>
 											<t t-foreach="Object.keys(state.customerList)" t-as="customerId" t-key="customerId">
 												<li>
 													<a class="dropdown-item" href="#" t-on-click="() => this.onCustomerSelect(customerId)">
@@ -56,25 +61,43 @@
 								</div>
 								<div class="flex-grow-1">
 									<div class="dropdown">
-										<button class="btn btn-outline-secondary form-select form-select-sm dropdown-toggle" type="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-											Product
+										<button class="btn btn-secondary btn-lg" type="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%; height: auto;">
+											Product : <span t-esc="state.productNameHeader"/>
 										</button>
-										<ul class="dropdown-menu" aria-labelledby="productDropdown">
-											<li><a class="dropdown-item" href="#">Option 1</a></li>
-											<li><a class="dropdown-item" href="#">Option 2</a></li>
-											<li><a class="dropdown-item" href="#">Option 3</a></li>
+										<ul class="dropdown-menu" aria-labelledby="productDropdown" style="width: 100%;">
+											<li>
+												<a class="dropdown-item" href="#" t-on-click="() => this.onProductSelect('All')">
+													All
+												</a>
+											</li>
+											<t t-foreach="Object.keys(state.productList)" t-as="productId" t-key="productId">
+												<li>
+													<a class="dropdown-item" href="#" t-on-click="() => this.onProductSelect(productId)">
+														<t t-esc="state.productList[productId]"/>
+													</a>
+												</li>
+											</t>
 										</ul>
 									</div>
 								</div>
 								<div class="flex-grow-1">
 									<div class="dropdown">
-										<button class="btn btn-outline-secondary form-select form-select-sm dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-											Category
+										<button class="btn btn-secondary btn-lg" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%; height: auto;">
+											Category : <span t-esc="state.productCategoryNameHeader"/>
 										</button>
-										<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-											<li><a class="dropdown-item" href="#">Option 1</a></li>
-											<li><a class="dropdown-item" href="#">Option 2</a></li>
-											<li><a class="dropdown-item" href="#">Option 3</a></li>
+										<ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="width: 100%;">
+											<li>
+												<a class="dropdown-item" href="#" t-on-click="() => this.onProductCategorySelect('-')">
+													-
+												</a>
+											</li>
+											<t t-foreach="Object.keys(state.productCategoryList)" t-as="categoryId" t-key="categoryId">
+												<li>
+													<a class="dropdown-item" href="#" t-on-click="() => this.onProductCategorySelect(categoryId)">
+														<t t-esc="state.productCategoryList[categoryId]"/>
+													</a>
+												</li>
+											</t>
 										</ul>
 									</div>
 								</div>
