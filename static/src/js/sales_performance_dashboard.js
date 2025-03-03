@@ -38,7 +38,8 @@ export class SalesPerformanceDashboard extends Component {
             productId: null,
             productCategoryList: {},
             productCategoryId: null,
-            productCategoryNameHeader: "-"
+            productCategoryNameHeader: "-",
+            averageSaleOrderLine: []
         });
         onMounted(async () => {
             await this.getSalesPerformanceData();
@@ -50,33 +51,41 @@ export class SalesPerformanceDashboard extends Component {
             await this.graph.renderHierarchyChart('#distribution-analysis');
             await this.graph.renderBarChart('#revenue-by-customer');
             await this.graph.renderBarChart('#number-of-quotes-by-salesperson');
-            await this.graph.renderAverageSaleOrderLine(this.state.averageSaleOrder);
+            this.state.averageSaleOrderLine = await this.getAverageSaleOrderByTimeGroup(this.state.salesPerformanceData, 'weekly');
+            await this.graph.renderAverageSaleOrderLine(this.state.averageSaleOrderLine);
         });
     }
 
     async onDateFilterSelect(dateFilter) {
         this.state.dateFilterHeader = dateFilter;
         const today = new Date();
+        var averagetype = 'weekly';
         if (dateFilter === "This Month") {
             this.state.dateFrom = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
             this.state.dateTo = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
+            averagetype = 'weekly';
         } else if (dateFilter === "This Quarter") {
             const currentQuarter = Math.floor(today.getMonth() / 3);
             this.state.dateFrom = new Date(today.getFullYear(), currentQuarter * 3, 1).toISOString().split('T')[0];
             this.state.dateTo = new Date(today.getFullYear(), (currentQuarter + 1) * 3, 0).toISOString().split('T')[0];
+            averagetype = 'monthly';
         } else if (dateFilter === "This Financial Year") {
             this.state.dateFrom = new Date(today.getFullYear(), 0, 1).toISOString().split('T')[0];
             this.state.dateTo = new Date(today.getFullYear(), 11, 32).toISOString().split('T')[0];
+            averagetype = 'quarterly';
         } else if (dateFilter === "Last Month") {
             this.state.dateFrom = new Date(today.getFullYear(), today.getMonth() - 1, 1).toISOString().split('T')[0];
             this.state.dateTo = new Date(today.getFullYear(), today.getMonth(), 0).toISOString().split('T')[0];
+            averagetype = 'weekly';
         } else if (dateFilter === "Last Quarter") {
             const lastQuarter = Math.floor((today.getMonth() - 3) / 3);
             this.state.dateFrom = new Date(today.getFullYear(), lastQuarter * 3, 1).toISOString().split('T')[0];
             this.state.dateTo = new Date(today.getFullYear(), (lastQuarter + 1) * 3, 0).toISOString().split('T')[0];
+            averagetype = 'monthly';
         } else if (dateFilter === "Last Financial Year") {
             this.state.dateFrom = new Date(today.getFullYear() - 1, 0, 1).toISOString().split('T')[0];
             this.state.dateTo = new Date(today.getFullYear() - 1, 11, 32).toISOString().split('T')[0];
+            averagetype = 'quarterly';
         } else if (dateFilter === "Custom") {
             const dateFromInput = document.getElementById('dateFrom').value;
             const dateToInput = document.getElementById('dateTo').value;
@@ -87,6 +96,7 @@ export class SalesPerformanceDashboard extends Component {
                 return `${day}/${month}/${year}`;
             };
             this.state.dateFilterHeader = `${formatDate(dateFromInput)} - ${formatDate(dateToInput)}`;
+            averagetype = 'weekly';
         }
         await this.getSalesPerformanceData();
         // this.state.customerList = this.getCustomerList(this.state.salesPerformanceData);
@@ -97,6 +107,8 @@ export class SalesPerformanceDashboard extends Component {
         await this.graph.renderHierarchyChart('#distribution-analysis');
         await this.graph.renderBarChart('#revenue-by-customer');
         await this.graph.renderBarChart('#number-of-quotes-by-salesperson');
+        this.state.averageSaleOrderLine = await this.getAverageSaleOrderByTimeGroup(this.state.salesPerformanceData, averagetype);
+        await this.graph.renderAverageSaleOrderLine(this.state.averageSaleOrderLine);
     }
 
     async onCustomerSelect(customerId) {
@@ -265,11 +277,82 @@ export class SalesPerformanceDashboard extends Component {
         });
     }
 
+    async getAverageSaleOrderByTimeGroup(salesPerformanceData, timeGroup) {
+        if (!salesPerformanceData || salesPerformanceData.length === 0) {
+            return [];
+        }
+
+        const groupSales = (salesPerformanceData, groupByFunc) => {
+            return salesPerformanceData.reduce((groups, sale) => {
+                if (sale.sale_order_id && sale.state === 'sale') {
+                    const groupKey = groupByFunc(new Date(sale.date));
+                    if (!groups[groupKey]) {
+                        groups[groupKey] = {
+                            totalAmount: 0,
+                            orderCount: 0
+                        };
+                    }
+                    groups[groupKey].totalAmount += sale.amount;
+                    groups[groupKey].orderCount += 1;
+                }
+                return groups;
+            }, {});
+        };
+
+        const calculateAverage = (salesGroups, getStartDateFunc) => {
+            return Object.keys(salesGroups).map(groupKey => {
+                const groupData = salesGroups[groupKey];
+                const average = groupData.totalAmount / groupData.orderCount;
+                const startDate = getStartDateFunc(groupKey, new Date().getFullYear());
+                return {
+                    date: startDate.getTime(),
+                    averageSaleOrder: average
+                };
+            });
+        };
+
+        let salesGroups;
+        let getStartDateFunc;
+
+        switch (timeGroup) {
+            case 'weekly':
+                salesGroups = groupSales(salesPerformanceData, this.getWeekNumber);
+                getStartDateFunc = this.getStartDateOfWeek;
+                break;
+            case 'monthly':
+                salesGroups = groupSales(salesPerformanceData, date => date.getMonth() + 1);
+                getStartDateFunc = (month, year) => new Date(year, month - 1, 1);
+                break;
+            case 'quarterly':
+                salesGroups = groupSales(salesPerformanceData, date => Math.floor(date.getMonth() / 3) + 1);
+                getStartDateFunc = (quarter, year) => new Date(year, (quarter - 1) * 3, 1);
+                break;
+            default:
+                throw new Error("Invalid time group. Please use 'weekly', 'monthly', or 'quarterly'.");
+        }
+
+        return calculateAverage(salesGroups, getStartDateFunc);
+    }
+
+    getWeekNumber(date) {
+        const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+        const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
+        return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+    }
+
+    getStartDateOfWeek(weekNumber, year) {
+        const firstDayOfYear = new Date(year, 0, 1);
+        const daysOffset = (weekNumber - 1) * 7;
+        const startDate = new Date(firstDayOfYear.setDate(firstDayOfYear.getDate() + daysOffset));
+        const dayOfWeek = startDate.getDay();
+        const diff = startDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(startDate.setDate(diff));
+    }
+
     getTop3ProductsBySales(salesPerformanceData) {
         if (!salesPerformanceData || salesPerformanceData.length === 0) {
             return [];
         }
-        console.log("salesPerformanceData", salesPerformanceData);
         // Aggregate sales data by product
         const productSales = salesPerformanceData.reduce((products, sale) => {
             if (sale.product_name) {
@@ -348,7 +431,6 @@ export class SalesPerformanceDashboard extends Component {
                 args: [[]],
                 kwargs: {}
             }).then(res => {
-                console.log("res", res);
                 this.state.productList = res.reduce((productMap, product) => {
                     productMap[product.product_id] = product.product_name['en_US'] || Object.values(product.product_name)[0];;
                     return productMap;
